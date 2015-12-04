@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>io test</title>
+	<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.7/socket.io.js"></script>
+</head>
+<body>
+<h1>socket.io test</h1>
+
+<select name="dogs" id="dd" onchange="chRoom()">
+  <option value="mabibi">mabibi</option>
+  <option value="uli">uli</option>
+  <option value="yetta">yetta</option>
+  <option value="bopa">bopa</option>
+</select>
+<input type="text" name="message" id="m" onchange="chMess()"></input>
+<input type="button" value="Submit" onclick="submit()"><br>
+<span id="resp"></span>
+
+
+<script>
+var url ='http://10.0.1.102:3035';
+var dd = document.getElementById('dd')
+var m = document.getElementById('m')
+var resp = document.getElementById('resp')
+var mess = 'default'
+var rm = dd.options[dd.selectedIndex].value
+console.log(rm)
+console.log(resp.innerHTML)
+var socket = io(url);
+	
+socket.on('roomMessage', function (data) {
+	console.log(data);
+	resp.innerHTML+=rm+': '+data.mess+'<br>'
+});
+function chRoom(){
+	rm = dd.options[dd.selectedIndex].value
+    socket.emit('switchLid',rm);
+}
+function chMess(){
+	mess=m.value
+	submit();
+}
+
+function submit(){
+	console.log(rm)
+	console.log(mess)
+	socket.emit('message to room', { mess: mess });
+}
+
+
+</script>
+
+</body>
+</html>

@@ -9,7 +9,7 @@ var secret = cfg.secret
 
 var httpLoc = cfg.url+':' + cfg.port + '/api/'
 
-describe('superagent:', function() {
+describe('signup token auth:', function() {
 	var agent = superagent.agent();
 	var name = 'tim7';
 	var ucnt = 0;
